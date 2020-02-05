@@ -6,6 +6,7 @@ from random import choice
 import sys
 from Util import find_word
 import math
+from MemeMaker.MemeGenerator import MemeGenerator
 
 with open("token.txt") as tokenfile:
     hydroBotToken = tokenfile.readlines()[0]
@@ -47,6 +48,16 @@ async def definition(ctx, word):
                 embed.add_field(name=str(index+1) + ". " + category, value=item, inline=False)
         message = embed
     return await ctx.channel.send(embed=message)
+
+
+@hydroBot.command()
+async def meme(ctx, template, *args):
+    try:
+        meme = MemeGenerator.generator_from_command(template, args)
+        return await ctx.channel.send(file=(meme, "meme.png"))
+    except Exception as e:
+        return await ctx.channel.send(str(e))
+
 
 
 print("Running HydroBot")
