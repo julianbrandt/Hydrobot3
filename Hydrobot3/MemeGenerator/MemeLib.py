@@ -2,11 +2,6 @@ from enum import Enum
 from PIL import ImageFont
 from MemeGenerator.MemeModel import MemeImage, TextZone
 
-class MemeLibrary:
-    def __init__(self):
-        self.memes
-
-
 class MemeImages(Enum):
     MeAlsoMe = MemeImage(
         "mealsome.png",
@@ -66,7 +61,7 @@ class MemeImages(Enum):
         [TextZone(
             (585, 545),
             175,
-            -30,
+            30,
             ImageFont.truetype("arial.ttf", 24),
             (True, True)
         )]
@@ -93,7 +88,7 @@ class MemeImages(Enum):
         [TextZone(
             (133, 300),
             175,
-            -10,
+            10,
             ImageFont.truetype("arial.ttf", 56),
             (False, True)
         )]
