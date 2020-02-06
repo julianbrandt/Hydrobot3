@@ -7,6 +7,8 @@ import sys
 from Util import find_word
 import math
 from MemeMaker.MemeGenerator import MemeGenerator
+from io import BytesIO
+import traceback
 
 with open("token.txt") as tokenfile:
     hydroBotToken = tokenfile.readlines()[0]
@@ -54,10 +56,13 @@ async def definition(ctx, word):
 async def meme(ctx, template, *args):
     try:
         meme = MemeGenerator.generator_from_command(template, args)
-        return await ctx.channel.send(file=(meme, "meme.png"))
+        image_bytes = BytesIO()
+        meme.image.save(image_bytes, format="PNG")
+        image_bytes.seek(0)
+        return await ctx.channel.send(file=discord.File(image_bytes, "meme.png"))
     except Exception as e:
+        print(traceback.format_exc())
         return await ctx.channel.send(str(e))
-
 
 
 print("Running HydroBot")
