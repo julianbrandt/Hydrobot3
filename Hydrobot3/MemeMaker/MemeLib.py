@@ -9,107 +9,95 @@ class MemeImages(Enum):
     MeAlsoMe = MemeImage(
         "mealsome.png",
         [TextZone(
-            (60, 0),
-            (400, 300),
-            0,
-            ImageFont.truetype("arial.ttf", 24),
-            (False, False)
-        ), TextZone(
-            (120, 100),
-            (350, 300),
-            0,
-            ImageFont.truetype("arial.ttf", 24),
-            (False, False)
+            pos=(60, 0),
+            dimensions=(400, 300),
+            font=ImageFont.truetype("arial.ttf", 24),
+        ),
+            TextZone(
+            pos=(120, 100),
+            dimensions=(350, 300),
+            font=ImageFont.truetype("arial.ttf", 24),
         )]
     ),
     ItsRetarded = MemeImage(
         "itsretarded.png",
         [TextZone(
-            (253, 3),
-            (220, 100),
-            0,
-            ImageFont.truetype("arial.ttf", 20),
-            (False, True)
+            pos=(253, 3),
+            dimensions=(220, 100),
+            font=ImageFont.truetype("arial.ttf", 20),
+            centering=(False, True)
         )]
     ),
     Headache = MemeImage(
         "headache.png",
         [TextZone(
-            (250, 490),
-            (400, 50),
-            0,
-            ImageFont.truetype("impact.ttf", 54),
-            (True, False)
+            pos=(250, 490),
+            dimensions=(400, 50),
+            font=ImageFont.truetype("impact.ttf", 54),
+            centering=(True, False)
         )]
     ),
     ItsTime = MemeImage(
         "itstime.png",
         [TextZone(
-            (60, 50),
-            (200, 150),
-            0,
-            ImageFont.truetype("arial.ttf", 36),
-            (True, True)
+            pos=(60, 50),
+            dimensions=(200, 150),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(True, True)
         ),
         TextZone(
-            (95, 380),
-            (110, 75),
-            0,
-            ImageFont.truetype("arial.ttf", 24),
-            (True, True)
+            pos=(95, 380),
+            dimensions=(110, 75),
+            font=ImageFont.truetype("arial.ttf", 24),
+            centering=(True, True)
         )]
     ),
     ClassNote = MemeImage(
         "classnote.png",
         [TextZone(
-            (585, 545),
-            (175, 140),
-            30,
-            ImageFont.truetype("arial.ttf", 24),
-            (True, True)
+            pos=(585, 545),
+            dimensions=(175, 140),
+            angle=30,
+            font=ImageFont.truetype("arial.ttf", 24),
+            centering=(True, True)
         )]
     ),
     FirstWord = MemeImage(
         "firstword.png",
         [TextZone(
-            (100, 30),
-            (500, 50),
-            0,
-            ImageFont.truetype("comic.ttf", 60),
-            (False, False)
+            pos=(100, 30),
+            dimensions=(500, 50),
+            font=ImageFont.truetype("comic.ttf", 60),
         ),
         TextZone(
-            (100, 485),
-            (500, 200),
-            0,
-            ImageFont.truetype("comic.ttf", 60),
-            (False, True)
-        )]
+            pos=(100, 485),
+            dimensions=(500, 200),
+            font=ImageFont.truetype("comic.ttf", 60),
+            centering=(False, True)
+        )],
     ),
     NutButton = MemeImage(
         "nutbutton.jpg",
         [TextZone(
-            (133, 300),
-            (175, 100),
-            10,
-            ImageFont.truetype("arial.ttf", 56),
-            (False, True)
+            pos=(133, 300),
+            dimensions=(175, 100),
+            angle=10,
+            font=ImageFont.truetype("arial.ttf", 56),
+            centering=(False, True)
         )]
     ),
     SwuUok = MemeImage(
         "swu_uok.png",
         [TextZone(
-            (20,22),
-            (220, 220),
-            0,
-            ImageFont.truetype("arial.ttf", 36),
-            (False, True)
+            pos=(20,22),
+            dimensions=(220, 220),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(False, True)
         ),
         TextZone(
-            (20, 300),
-            (220, 220),
-            0,
-            ImageFont.truetype("arial.ttf", 36),
-            (False, True)
+            pos=(20, 300),
+            dimensions=(220, 220),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(False, True)
         )]
     )
