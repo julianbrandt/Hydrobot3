@@ -10,12 +10,12 @@ class MemeImages(Enum):
         "mealsome.png",
         [TextZone(
             pos=(60, 0),
-            dimensions=(400, 300),
+            dimensions=(400, 95),
             font=ImageFont.truetype("arial.ttf", 24),
         ),
             TextZone(
             pos=(120, 100),
-            dimensions=(350, 300),
+            dimensions=(350, 100),
             font=ImageFont.truetype("arial.ttf", 24),
         )]
     ),
@@ -23,7 +23,7 @@ class MemeImages(Enum):
         "itsretarded.png",
         [TextZone(
             pos=(253, 3),
-            dimensions=(220, 100),
+            dimensions=(220, 90),
             font=ImageFont.truetype("arial.ttf", 20),
             centering=(False, True)
         )]

@@ -10,7 +10,6 @@ class TextZone:
         self.centering = centering
 
 class MemeImage:
-    def __init__(self, imageFileName, text_zones, override_options=None):
+    def __init__(self, imageFileName, text_zones):
         self.image_file_name = imageFileName
         self.text_zones = text_zones
-        self.override_options = override_options

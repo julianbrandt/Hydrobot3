@@ -6,7 +6,7 @@ from random import choice
 import sys
 from Util import find_word
 import math
-from MemeMaker.MemeGenerator import MemeGenerator
+from MemeMaker.MemeGenerator import MemeGenerator, download_image
 from io import BytesIO
 import traceback
 
@@ -63,6 +63,15 @@ async def meme(ctx, template, *args):
     except Exception as e:
         print(traceback.format_exc())
         return await ctx.channel.send(str(e))
+
+
+@hydroBot.command()
+async def downloadimage(ctx, link):
+    meme = download_image(link)
+    image_bytes = BytesIO()
+    meme.save(image_bytes, format="PNG")
+    image_bytes.seek(0)
+    return await ctx.channel.send(file=discord.File(image_bytes, "meme.png"))
 
 
 print("Running HydroBot")

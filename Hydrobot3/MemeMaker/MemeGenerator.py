@@ -1,7 +1,10 @@
 from PIL import Image, ImageDraw
 from MemeMaker.MemeLib import MemeImages
 from MemeMaker.MemeModel import MemeImage
-from math import sin, pi
+from enum import Enum
+from io import BytesIO
+import requests
+import shutil
 
 
 def split_line(text, font, width):
@@ -35,6 +38,20 @@ def get_textbox_margins(text, font, maxSize, drawer):
     width_margin = round((maxSize[0] - drawer.textsize(text, font)[0])/2)
     height_margin = round((maxSize[1] - drawer.textsize(text, font)[1])/2)
     return width_margin, height_margin
+
+
+def download_image(address):
+    resp = requests.get(address, stream=True)
+    file = BytesIO()
+    resp.raw.decode_content = True
+    shutil.copyfileobj(resp.raw, file)
+    del resp
+    return Image.open(file)
+
+
+class TextType(Enum):
+    Text = 0,
+    Image = 1
 
 
 class MemeGenerator:
@@ -84,15 +101,37 @@ class MemeGenerator:
     def apply_modification(self):
         drawer = ImageDraw.Draw(self.image)
         for i in range(len(self.meme_image.text_zones)):
+            text_type = TextType.Text
+            if str.startswith(self.texts[i], "<https://") and str.endswith(self.texts[i], ">"):
+                text_type = TextType.Image
+
             zone = self.meme_image.text_zones[i]
             if zone.angle == 0:
-                self.draw_text(zone, self.texts[i], drawer)
+                self.draw_text_zone(zone, self.texts[i], text_type, drawer)
             else:
                 self.apply_rotation(zone.angle)
                 drawer = ImageDraw.Draw(self.image)
-                self.draw_text(zone, self.texts[i], drawer)
+                self.draw_text_zone(zone, self.texts[i], text_type, drawer)
                 self.apply_rotation(-zone.angle)
                 self.post_rotation_crop()
+
+
+    def draw_text_zone(self, text_zone, text, text_type, drawer):
+        if text_type == TextType.Text:
+            self.draw_text(text_zone, text, drawer)
+        else:
+            self.draw_image(text_zone, text)
+
+
+    def draw_image(self, text_zone, text):
+        text = text[1:-1]
+        img = download_image(text)
+        resize_dimensions = list(text_zone.dimensions)
+        for i in range(2):
+            if img.size[i] < resize_dimensions[i]:
+                resize_dimensions[i] = img.size[i]
+        img = img.resize(resize_dimensions, Image.ANTIALIAS)
+        self.image.paste(img, text_zone.pos)
 
 
     @staticmethod
