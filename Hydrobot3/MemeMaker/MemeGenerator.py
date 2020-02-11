@@ -54,15 +54,26 @@ class TextType(Enum):
     Image = 1
 
 
+class MemeOptions(Enum):
+    Stretch = 0,
+
+
 class MemeGenerator:
-    def __init__(self, meme_image:MemeImage, texts):
+    def __init__(self, meme_image:MemeImage, args):
+        args = list(args)
+        self.texts:str
+        self.options:[]
+        self.extract_options(args)
         self.meme_image = meme_image
         self.image = Image.open("MemeMaker/ImageLibrary/" + meme_image.image_file_name)
         self.initial_dimensions = self.image.size
-        self.texts = texts
-        if len(texts) != len(meme_image.text_zones):
-            raise Exception("Invalid arguments: Expected " + str(len(meme_image.text_zones)) +
-                            " arguments, but received " + str(len(texts)))
+        if len(self.texts) != len(meme_image.text_zones):
+            error_message = "Invalid arguments: Expected " + str(len(meme_image.text_zones)) + " arguments, but received " + str(len(self.texts)) + "."
+            for t in self.texts:
+                if t.startswith("{") and t.endswith("}"):
+                    error_message += " Double check that the `options {...}` are spelt correctly"
+                    break
+            raise ValueError(error_message)
         self.apply_modification()
 
 
@@ -126,12 +137,26 @@ class MemeGenerator:
     def draw_image(self, text_zone, text):
         text = text[1:-1]
         img = download_image(text)
-        resize_dimensions = list(text_zone.dimensions)
-        for i in range(2):
-            if img.size[i] < resize_dimensions[i]:
-                resize_dimensions[i] = img.size[i]
-        img = img.resize(resize_dimensions, Image.ANTIALIAS)
+        img = self.resize_image_argument(img, text_zone.dimensions)
         self.image.paste(img, text_zone.pos)
+
+
+    def resize_image_argument(self, img, text_zone_dimensions):
+        resize_dimensions = get_scaled_dimensions(img, text_zone_dimensions)
+        if self.options.__contains__(MemeOptions.Stretch):
+            resize_dimensions = list(text_zone_dimensions)
+        return img.resize(resize_dimensions, Image.ANTIALIAS)
+
+
+    def extract_options(self, args):
+        options = []
+        for i in range(len(args)):
+            for o in MemeOptions:
+                if "{" + o.name.lower() + "}" == args[i].lower():
+                    options.append(o)
+                    args[i] = ""
+        self.options = options
+        self.texts:str = list(filter("".__ne__, args))
 
 
     @staticmethod
@@ -156,3 +181,13 @@ class MemeGenerator:
             (0, 0, 0),
             text_zone.font
         )
+
+
+def get_scaled_dimensions(img, text_zone_dimensions):
+    image_aspect_ratio = img.size[0] / img.size[1]
+    zone_aspect_ratio = text_zone_dimensions[0] / text_zone_dimensions[1]
+    if image_aspect_ratio >= zone_aspect_ratio:
+        return [text_zone_dimensions[0], round(text_zone_dimensions[0] / image_aspect_ratio)]
+    else:
+        return [round(text_zone_dimensions[1] * image_aspect_ratio), text_zone_dimensions[1]]
+
