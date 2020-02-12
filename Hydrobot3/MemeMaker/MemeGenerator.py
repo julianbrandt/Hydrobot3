@@ -61,7 +61,6 @@ class MemeOptions(Enum):
 class MemeGenerator:
     def __init__(self, meme_image:MemeImage, args):
         args = list(args)
-        self.texts:str
         self.options:[]
         self.extract_options(args)
         self.meme_image = meme_image
@@ -80,7 +79,7 @@ class MemeGenerator:
     @staticmethod
     def generator_from_command(name, texts):
         try:
-            for m in MemeImages:
+            for m in list(MemeImages):
                 if name.lower() == m.name.lower():
                     return MemeGenerator(m.value[0], texts)
             raise ValueError("The meme template \"" + name + "\" does not exist")
@@ -137,11 +136,16 @@ class MemeGenerator:
     def draw_image(self, text_zone, text):
         text = text[1:-1]
         img = download_image(text)
-        img = self.resize_image_argument(img, text_zone.dimensions)
-        self.image.paste(img, text_zone.pos)
+        img = self.resize_image(img, text_zone.dimensions)
+        margins = get_centered_image_margins(img.size, text_zone.dimensions)
+        pos = (
+            text_zone.pos[0] + margins[0],
+            text_zone.pos[1] + margins[1]
+        )
+        self.image.paste(img, pos)
 
 
-    def resize_image_argument(self, img, text_zone_dimensions):
+    def resize_image(self, img, text_zone_dimensions):
         resize_dimensions = get_scaled_dimensions(img, text_zone_dimensions)
         if self.options.__contains__(MemeOptions.Stretch):
             resize_dimensions = list(text_zone_dimensions)
@@ -181,6 +185,10 @@ class MemeGenerator:
             (0, 0, 0),
             text_zone.font
         )
+
+
+def get_centered_image_margins(current_dimensions, max_dimensions):
+    return round((max_dimensions[0] - current_dimensions[0]) / 2), round((max_dimensions[1] - current_dimensions[1]) / 2)
 
 
 def get_scaled_dimensions(img, text_zone_dimensions):

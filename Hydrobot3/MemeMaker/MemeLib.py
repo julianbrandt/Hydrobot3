@@ -87,17 +87,62 @@ class MemeImages(Enum):
         )]
     ),
     SwuUok = MemeImage(
-        "swu_uok.png",
+        "swuuok.png",
         [TextZone(
             pos=(20,22),
             dimensions=(220, 220),
             font=ImageFont.truetype("arial.ttf", 36),
-            centering=(False, True)
+            centering=(True, True)
         ),
         TextZone(
-            pos=(20, 300),
+            pos=(20, 285),
             dimensions=(220, 220),
             font=ImageFont.truetype("arial.ttf", 36),
-            centering=(False, True)
+            centering=(True, True)
         )]
-    )
+    ),
+    Pills = MemeImage(
+        "pills.jpg",
+        [TextZone(
+            pos=(235, 290),
+            dimensions=(230, 40),
+            font=ImageFont.truetype("arial.ttf", 20),
+            centering=(True, False)
+        )]
+    ),
+    Balloon = MemeImage(
+        "balloon.jpg",
+        [TextZone(
+            pos=(30, 300),
+            dimensions=(200, 200),
+            font=ImageFont.truetype("arial.ttf", 40),
+            centering=(True, True)
+        ),
+        TextZone(
+            pos=(470, 100),
+            dimensions=(300, 250),
+            font=ImageFont.truetype("arial.ttf", 40),
+            centering=(True, True)
+        ),
+        TextZone(
+            pos=(10, 750),
+            dimensions=(200, 250),
+            font=ImageFont.truetype("arial.ttf", 40),
+            centering=(True, True)
+        )]
+    ),
+    Classy = MemeImage(
+        "classy.jpg",
+        [TextZone(
+            pos=(310, 20),
+            dimensions=(370, 210),
+            font=ImageFont.truetype("arial.ttf", 40),
+            centering=(True, True)
+        ),
+        TextZone(
+            pos=(310, 270),
+            dimensions=(370, 210),
+            font=ImageFont.truetype("MemeMaker/FontLibrary/BLKCHCRY.ttf", 45),
+            centering=(True, True)
+        )]
+    ),
