@@ -146,3 +146,36 @@ class MemeImages(Enum):
             centering=(True, True)
         )]
     ),
+    Cola = MemeImage(
+        "cola.jpg",
+        [TextZone(
+            pos=(180, 425),
+            dimensions=(200, 200),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(True, True),
+            text_color=(255, 255, 255)
+        ),
+        TextZone(
+            pos=(600, 350),
+            dimensions=(180, 100),
+            font=ImageFont.truetype("arial.ttf", 36),
+            angle=30,
+            centering=(True, True)
+        )]
+    ),
+    Loud = MemeImage(
+        "loud.jpg",
+        [TextZone(
+            pos=(850, 600),
+            dimensions=(200, 200),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(True, False)
+        ),
+        TextZone(
+            pos=(860, 800),
+            dimensions=(200, 190),
+            font=ImageFont.truetype("arial.ttf", 36),
+            centering=(True, False),
+            optional=True
+        )]
+    ),

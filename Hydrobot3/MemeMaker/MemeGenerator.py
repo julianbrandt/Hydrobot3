@@ -66,7 +66,7 @@ class MemeGenerator:
         self.meme_image = meme_image
         self.image = Image.open("MemeMaker/ImageLibrary/" + meme_image.image_file_name)
         self.initial_dimensions = self.image.size
-        if len(self.texts) != len(meme_image.text_zones):
+        if len(self.texts) < meme_image.count_non_optional():
             error_message = "Invalid arguments: Expected " + str(len(meme_image.text_zones)) + " arguments, but received " + str(len(self.texts)) + "."
             for t in self.texts:
                 if t.startswith("{") and t.endswith("}"):
@@ -111,6 +111,8 @@ class MemeGenerator:
     def apply_modification(self):
         drawer = ImageDraw.Draw(self.image)
         for i in range(len(self.meme_image.text_zones)):
+            if i == len(self.texts):
+                break
             text_type = TextType.Text
             if str.startswith(self.texts[i], "<https://") and str.endswith(self.texts[i], ">"):
                 text_type = TextType.Image
@@ -182,7 +184,7 @@ class MemeGenerator:
         drawer.text(
             pos,
             split_line(text, text_zone.font, text_zone.dimensions[0]),
-            (0, 0, 0),
+            text_zone.text_color,
             text_zone.font
         )
 
