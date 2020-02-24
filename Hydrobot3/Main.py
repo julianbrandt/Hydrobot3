@@ -6,8 +6,7 @@ from random import choice
 import sys
 from Util import find_word
 import math
-from MemeMaker.MemeGenerator import MemeGenerator, download_image
-from io import BytesIO
+from MemePy import MemeGenerator
 import traceback
 
 with open("token.txt") as tokenfile:
@@ -19,8 +18,13 @@ hydroBot.remove_command("help")
 
 
 @hydroBot.command()
+async def help(ctx):
+    return await ctx.channel.send("Help yourself.")
+
+
+@hydroBot.command()
 async def pick(ctx, *args):
-    await ctx.channel.send(choice(args))
+    return await ctx.channel.send(choice(args))
 
 
 @hydroBot.command()
@@ -30,9 +34,9 @@ async def roll(ctx, arg1, arg2=1):
         arg2 = int(arg2)
         lower = min(arg1, arg2)
         higher = max(arg1, arg2)
-        await ctx.channel.send(choice(range(lower, higher)))
+        return await ctx.channel.send(choice(range(lower, higher)))
     except (OverflowError, ValueError):
-        await ctx.channel.send("Input numbers must be integers lower than " + str(sys.maxsize))
+        return await ctx.channel.send("Input numbers must be integers lower than " + str(sys.maxsize))
 
 
 @hydroBot.command()
@@ -55,23 +59,14 @@ async def definition(ctx, word):
 @hydroBot.command()
 async def meme(ctx, template, *args):
     try:
-        meme = MemeGenerator.generator_from_command(template, args)
-        image_bytes = BytesIO()
-        meme.image.save(image_bytes, format="PNG")
-        image_bytes.seek(0)
-        return await ctx.channel.send(file=discord.File(image_bytes, "meme.png"))
+        for s in args:
+            if len(str(s)) > 100:
+                return await ctx.channel.send("Any argument cannot be longer than 100 characters.")
+        meme_image_bytes = MemeGenerator.get_meme_image_bytes(template, args)
+        return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme.png"))
     except Exception as e:
         print(traceback.format_exc())
         return await ctx.channel.send(str(e))
-
-
-@hydroBot.command()
-async def downloadimage(ctx, link):
-    meme = download_image(link)
-    image_bytes = BytesIO()
-    meme.save(image_bytes, format="PNG")
-    image_bytes.seek(0)
-    return await ctx.channel.send(file=discord.File(image_bytes, "meme.png"))
 
 
 print("Running HydroBot")
