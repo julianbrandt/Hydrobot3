@@ -133,6 +133,7 @@ Hydrobot3/.idea
 
 # Authentication token
 Hydrobot3/token.txt
+Hydrobot3/experimentaltoken.txt
 
 # PyDictionary
 Hydrobot3/PyDictionary/
