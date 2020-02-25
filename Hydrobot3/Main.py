@@ -4,10 +4,11 @@ import discord
 import discord.ext.commands as cms
 from random import choice
 import sys
-from Util import find_word
+from Util import find_word, is_link
 import math
 from MemePy import MemeGenerator
 import traceback
+from PIL import UnidentifiedImageError
 
 with open("token.txt") as tokenfile:
     hydroBotToken = tokenfile.readlines()[0]
@@ -60,14 +61,23 @@ async def definition(ctx, word):
 async def meme(ctx, template, *args):
     try:
         for s in args:
+            if is_link(s):
+                return await ctx.channel.send("Link-arguments must be surrounded by '<' '>' angle brackets.\n`<https://example.com/image.jpg>`")
+            elif len(s) > 2 and is_link(s[1:-1]):
+                pass
             if len(str(s)) > 100:
                 return await ctx.channel.send("Any argument cannot be longer than 100 characters.")
         meme_image_bytes = MemeGenerator.get_meme_image_bytes(template, args)
         return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme.png"))
+    except UnidentifiedImageError:
+        print(traceback.format_exc())
+        return await ctx.channel.send("Could not identify image file.")
     except Exception as e:
         print(traceback.format_exc())
         return await ctx.channel.send(str(e))
 
 
 print("Running HydroBot")
-hydroBot.run(hydroBotToken)
+while True:
+    hydroBot.run(hydroBotToken)
+    hydroBot.connect()

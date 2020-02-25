@@ -1,5 +1,3 @@
-import discord
-import discord.ext.commands as cms
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -35,3 +33,9 @@ def find_word(term, disable_errors=False):
         except Exception as e:
             if disable_errors == False:
                 print("Error: The Following Error occured: %s" % e)
+
+
+def is_link(string):
+    regex = re.compile(r'^http(s)?://[A-za-z0-9./\\]*$')
+    is_link = re.match(regex, string) is not None
+    return is_link
