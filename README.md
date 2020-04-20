@@ -1,5 +1,4 @@
 # Hydrobot3
-Third iteration of the discord bot *HYDROBOT*!
 Do you want to generate complex memes through simple chat messages in your discord server?
 [Then add Hydrobot3 to your discord server today](https://discordapp.com/oauth2/authorize?client_id=302003797402845184&scope=bot&permissions=0)
 
