@@ -36,6 +36,6 @@ def find_word(term, disable_errors=False):
 
 
 def is_link(string):
-    regex = re.compile(r'^http(s)?://[A-za-z0-9./\\]*$')
+    regex = re.compile(r'^http(s)?://[A-za-z0-9./\\?&\-_=]*$')
     is_link = re.match(regex, string) is not None
     return is_link
