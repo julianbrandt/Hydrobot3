@@ -16,12 +16,13 @@ def help_meme():
     embed = discord.Embed(title="-meme <template> <args>*\n"
                                 + descriptions["meme"], color=0xff6347)
     embed.set_author(name="Help for -meme command")
-    for m in MemeFactory.MemeLib:
-        non_optional = m.meme_image.count_non_optional()
-        value = "Arguments: " + non_optional
-        optional = len(m.meme_image.text_zones) - non_optional
+    memes = MemeFactory.MemeLib
+    for m in memes:
+        non_optional = memes[m].count_non_optional()
+        value = "Arguments: %i" % non_optional
+        optional = len(memes[m].text_zones) - non_optional
         if optional > 0:
-            value += " + " + optional + " optional."
+            value += " + %i optional." % optional
         embed.add_field(name=m, value=value, inline=False)
     return embed
 

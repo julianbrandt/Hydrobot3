@@ -6,7 +6,7 @@ commands = [
         Funcs.pick,
         name="pick",
         brief="Picks a random input",
-        description="Picks and returns an argument at random."
+        description="Picks and returns one of given arguments at random."
     ),
     cms.Command(
         Funcs.roll,
@@ -18,7 +18,9 @@ commands = [
         Funcs.meme,
         name="meme",
         brief="Makes a custom meme",
-        description="Creates a meme with given text or images pasted onto a chosen template"
+        description="Creates a meme with given text or images pasted onto a chosen template.\n"
+                    "Do '-meme list' to list all available meme templates.\n"
+                    "Visit https://github.com/julianbrandt/MemePy for full docs on the meme-engine"
     ),
     cms.Command(
         Funcs.definition,

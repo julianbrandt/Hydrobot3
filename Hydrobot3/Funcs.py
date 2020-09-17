@@ -8,6 +8,7 @@ from MemePy import MemeGenerator
 from random import choice
 import traceback
 from PIL import UnidentifiedImageError
+import HelpGetters
 
 
 async def pick(ctx, *args):
@@ -26,6 +27,8 @@ async def roll(ctx, arg1, arg2=1):
 
 
 async def meme(ctx, template, *args):
+    if template == "list":
+        return await ctx.channel.send(embed=HelpGetters.help_meme())
     try:
         for s in args:
             if is_link(s):
