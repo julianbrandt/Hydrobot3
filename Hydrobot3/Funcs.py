@@ -4,7 +4,7 @@ import discord
 import sys
 from Util import find_word, is_link
 import math
-from MemePy import MemeGenerator
+from MemePy import MemeGenerator, MemeFactory
 from random import choice
 import traceback
 from PIL import UnidentifiedImageError
@@ -27,6 +27,11 @@ async def roll(ctx, arg1, arg2=1):
 
 
 async def meme(ctx, template, *args):
+    def find_in_memelib(key):
+        for m in MemeFactory.MemeLib:
+            if m.lower() == key.lower():
+                return MemeFactory.MemeLib[m]
+
     if template == "list":
         return await ctx.channel.send(embed=HelpGetters.help_meme())
     try:
@@ -38,7 +43,8 @@ async def meme(ctx, template, *args):
             elif len(str(s)) > 100:
                 return await ctx.channel.send("Any argument cannot be longer than 100 characters.")
         meme_image_bytes = MemeGenerator.get_meme_image_bytes(template, list(args))
-        return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme.png"))
+        format = find_in_memelib(template).image_file_path.split(".")[-1]
+        return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme." + format))
     except UnidentifiedImageError:
         print(traceback.format_exc())
         return await ctx.channel.send("Could not identify image file.")
