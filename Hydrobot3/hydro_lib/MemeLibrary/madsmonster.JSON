@@ -1,0 +1,32 @@
+{
+  "MadsMonsterMeme": {
+    "filename": "madsmonster.png",
+    "text_zones": [
+      {
+        "pos": [0, 0],
+        "dimensions": [400, 400],
+        "font": "arial.ttf",
+        "font_size": 36,
+        "centering": ["true", "true"]
+      },
+      {
+        "pos": [0, 25],
+        "dimensions": [400, 50],
+        "font": "impact.ttf",
+        "font_size": 20,
+        "centering": ["True", "True"],
+        "text_color": [255, 255, 255],
+        "outline": "True"
+      },
+      {
+        "pos": [0, 325],
+        "dimensions": [400, 50],
+        "font": "impact.ttf",
+        "font_size": 20,
+        "centering": ["True", "True"],
+        "text_color": [255, 255, 255],
+        "outline": "True"
+      }
+    ]
+  }
+}
