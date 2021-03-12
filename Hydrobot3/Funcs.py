@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import shutil
+from io import BytesIO
 
 import discord
 import sys
@@ -7,8 +9,9 @@ import math
 from MemePy import MemeGenerator, MemeFactory
 from random import choice
 import traceback
-from PIL import UnidentifiedImageError
+from PIL import UnidentifiedImageError, Image
 import HelpGetters
+import requests
 
 
 async def pick(ctx, *args):
@@ -45,6 +48,20 @@ async def meme(ctx, template, *args):
         meme_image_bytes = MemeGenerator.get_meme_image_bytes(template, list(args))
         format = find_in_memelib(template).image_file_path.split(".")[-1]
         return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme." + format))
+    except UnidentifiedImageError:
+        print(traceback.format_exc())
+        return await ctx.channel.send("Could not identify image file.")
+    except Exception as e:
+        print(traceback.format_exc())
+        return await ctx.channel.send(str(e))
+
+
+async def madsmonster(ctx):
+    resp = requests.get("https://api.mads.monster/random/meme")
+    json = resp.json()
+    try:
+        meme_image_bytes = MemeGenerator.get_meme_image_bytes("MadsMonsterMeme", ("<" + json["visual"] + ">", "{stretch}", json["toptext"], json["bottomtext"]))
+        return await ctx.channel.send(file=discord.File(meme_image_bytes, "meme.png"))
     except UnidentifiedImageError:
         print(traceback.format_exc())
         return await ctx.channel.send("Could not identify image file.")

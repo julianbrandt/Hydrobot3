@@ -27,5 +27,11 @@ commands = [
         name="definition",
         brief="Gets the definition of a word",
         description="Gives the definition of an english word"
+    ),
+    cms.Command(
+        Funcs.madsmonster,
+        name="madsmonster",
+        brief="Gets a meme from mads.monster",
+        description="Generates a random meme from the website mads.monster"
     )
 ]
