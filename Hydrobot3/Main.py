@@ -3,7 +3,7 @@ from Commands import commands
 from MemePy import MemeGenerator, MemeFactory
 
 
-with open("experimentaltoken.txt") as tokenfile:
+with open("token.txt") as tokenfile:
     hydroBotToken = tokenfile.readlines()[0]
     tokenfile.close()
 
